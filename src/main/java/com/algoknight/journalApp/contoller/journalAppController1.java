@@ -26,11 +26,12 @@ public class journalAppController1 {
 
 
     @PostMapping("/add")
-    public void createEntry(@RequestBody journalEntry journal){
+    public ResponseEntity<?> createEntry(@RequestBody journalEntry journal){
         System.out.println("Before save");
          journal.setDate(LocalDateTime.now());
          journalEntry saved = journalEntryService.save(journal);
          System.out.println("Saved id: "+saved.getId());
+         return new ResponseEntity<>(saved,HttpStatus.CREATED);
     }
 
     @GetMapping("id/{myId}")
@@ -42,9 +43,13 @@ public class journalAppController1 {
     }
 
     @DeleteMapping("id/{id}")
-    public boolean deleteJournalEntry(@PathVariable ObjectId id){
-             journalEntryService.deleteById(id);
-             return true;
+    public ResponseEntity<?> deleteJournalEntry(@PathVariable ObjectId id){
+        Optional<journalEntry> journal = journalEntryService.findById(id);
+        if(journal.isPresent()){
+            journalEntryService.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
     }
 
