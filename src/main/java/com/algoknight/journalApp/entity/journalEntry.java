@@ -14,7 +14,7 @@ public class journalEntry {
     private ObjectId id;
 
     private String title;
-
+//test
     private String content;
 
     private LocalDateTime date;
