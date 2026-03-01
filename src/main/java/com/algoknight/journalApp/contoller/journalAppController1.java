@@ -25,14 +25,17 @@ public class journalAppController1 {
            }
 
 
-    @PostMapping("/add")
-    public ResponseEntity<?> createEntry(@RequestBody journalEntry journal){
-        System.out.println("Before save");
-         journal.setDate(LocalDateTime.now());
-         journalEntry saved = journalEntryService.save(journal);
-         System.out.println("Saved id: "+saved.getId());
-         return new ResponseEntity<>(saved,HttpStatus.CREATED);
+    @PostMapping("{username}")
+    public ResponseEntity<?> createEntry(@RequestBody journalEntry journal,@PathVariable String username){
+     try{
+
+         journalEntry saved = journalEntryService.save(journal,username);
+         return new ResponseEntity<>(saved,HttpStatus.CREATED);}
+     catch (Exception e) {
+         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+     }
     }
+
 
     @GetMapping("id/{myId}")
     public ResponseEntity<journalEntry> getJournalById(@PathVariable ObjectId myId){
@@ -53,19 +56,19 @@ public class journalAppController1 {
 
     }
 
-    @PutMapping("id/{id}")
-    public ResponseEntity<?> updatejournalById(@PathVariable ObjectId id,@RequestBody journalEntry updated){
-        Optional<journalEntry> old = journalEntryService.findById(id);
-        if(old.isPresent()){
-           old.get().setTitle(updated.getTitle() != null && updated.getTitle() != ""?updated.getTitle():old.get().getTitle());
-            old.get().setContent(updated.getContent() != null && updated.getContent() != ""?updated.getContent():old.get().getContent());
-            journalEntryService.save(old.get());
-            return new ResponseEntity<>(old,HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    //@PutMapping("id/{id}")
+//        public ResponseEntity<?> updatejournalById(@PathVariable ObjectId id,@RequestBody journalEntry updated){
+//            Optional<journalEntry> old = journalEntryService.findById(id);
+//            if(old.isPresent()){
+//               old.get().setTitle(updated.getTitle() != null && updated.getTitle() != ""?updated.getTitle():old.get().getTitle());
+//                old.get().setContent(updated.getContent() != null && updated.getContent() != ""?updated.getContent():old.get().getContent());
+//                journalEntryService.save(old.get());
+//                return new ResponseEntity<>(old,HttpStatus.OK);
+//            }
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
 
     }
 
-    }
+
 
