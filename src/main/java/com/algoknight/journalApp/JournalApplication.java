@@ -6,7 +6,9 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
+import org.springframework.data.mongodb.MongoTransactionManager;
 import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
+import org.springframework.transaction.PlatformTransactionManager;
 
 @SpringBootApplication
 @EnableAutoConfiguration
@@ -16,6 +18,11 @@ public class JournalApplication {
 
 		SpringApplication.run(JournalApplication.class, args);
 	}
+
+    @Bean
+    public PlatformTransactionManager falana(MongoDatabaseFactory dbFactory){
+        return new MongoTransactionManager(dbFactory);
+    }
 
 
 
