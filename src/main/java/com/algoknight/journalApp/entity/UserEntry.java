@@ -1,6 +1,5 @@
 package com.algoknight.journalApp.entity;
 
-
 import lombok.Data;
 import lombok.NonNull;
 import org.bson.types.ObjectId;
@@ -12,6 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Document(collection = "User_entries")
 @Data
 public class UserEntry {
@@ -27,6 +27,6 @@ public class UserEntry {
     @DBRef
     private List<journalEntry> journalEntries = new ArrayList<>();
 
-
+    private List<String> roles;
 
 }

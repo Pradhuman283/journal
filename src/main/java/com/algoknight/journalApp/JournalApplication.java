@@ -1,5 +1,7 @@
 package com.algoknight.journalApp;
 
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -14,10 +16,11 @@ import org.springframework.transaction.PlatformTransactionManager;
 @EnableAutoConfiguration
 public class JournalApplication {
 
-	public static void main(String[] args) {
 
-		SpringApplication.run(JournalApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(JournalApplication.class, args);
+    }
+
 
     @Bean
     public PlatformTransactionManager falana(MongoDatabaseFactory dbFactory){

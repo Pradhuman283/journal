@@ -21,31 +21,48 @@ public class JournalEntryService {
     @Autowired
     private UserEntryService userEntryService;
 
-
     @Transactional
-    public journalEntry save(journalEntry journal,String username){
+    public journalEntry save(journalEntry journal, String username) {
         UserEntry user = userEntryService.findByUsername(username);
-        journal.setDate(LocalDateTime.now());
-        journalEntry saved = entryRepository.save(journal);
-        user.getJournalEntries().add(saved);
-        userEntryService.save(user);
-        return saved;
+        if (user != null) {
+            journal.setDate(LocalDateTime.now());
+            journalEntry saved = entryRepository.save(journal);
+            user.getJournalEntries().add(saved);
+            userEntryService.save(user);
+            return saved;
+        }
+        throw new RuntimeException("User not found with username: " + username);
     }
 
-    public List<journalEntry> getAll(){
+    public List<journalEntry> getAll() {
         return entryRepository.findAll();
     }
 
-
-    public Optional<journalEntry> findById(ObjectId myid){
-        return entryRepository.findById(myid);
+    public List<journalEntry> getAllEntriesOfUser(String username) {
+        UserEntry user = userEntryService.findByUsername(username);
+        if (user != null) {
+            return user.getJournalEntries();
+        }
+        throw new RuntimeException("User not found with username: " + username);
     }
 
-    public void deleteById(ObjectId id){
-         Optional<journalEntry> journal = entryRepository.findById(id);
-         if(journal.isPresent())  entryRepository.deleteById(id);
+    public Optional<journalEntry> findById(ObjectId myid, String username) {
+        UserEntry user = userEntryService.findByUsername(username);
+        if (user != null) {
+            return entryRepository.findById(myid);
+        }
+        throw new RuntimeException("User not found with username: " + username);
+    }
 
+    public void deleteById(ObjectId id, String username) {
+        Optional<journalEntry> journal = entryRepository.findById(id);
+        if (journal.isPresent())
+            entryRepository.deleteById(id);
 
+    }
+
+    public void saveEntry(journalEntry journal) {
+        entryRepository.save(journal);
     }
 }
 

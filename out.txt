@@ -1,0 +1,23 @@
+﻿[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< com.algoknight:journalApp >----------------------
+[INFO] Building journal App 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.5.0:clean (default-clean) @ journalApp ---
+[INFO] Deleting D:\Pradhuman Area\Study\Project\journalApp\journalApp\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ journalApp ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ journalApp ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 13 source files with javac [debug parameters release 17] to target\classes
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  2.541 s
+[INFO] Finished at: 2026-03-12T21:51:12+05:30
+[INFO] ------------------------------------------------------------------------

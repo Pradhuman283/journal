@@ -21,43 +21,51 @@ public class UserController {
     @Autowired
     private UserEntryService userEntryService;
 
-
-
     @GetMapping()
-    public List<UserEntry> getAll(){
+    public List<UserEntry> getAll() {
         return userEntryService.getAll();
     }
 
-    @GetMapping("id/{myId}")
-    public ResponseEntity<UserEntry> getJournalById(@PathVariable ObjectId myId){
-        Optional<UserEntry> userEntry = userEntryService.findById(myId);
-        if(userEntry.isPresent()) return new ResponseEntity<>(userEntry.get(),HttpStatus.OK);
+    @GetMapping("{username}")
+    public List<UserEntry> getAllEUserEntries() {
+        return userEntryService.getAll();
+    }
+
+    @GetMapping("id/{username}")
+    public ResponseEntity<UserEntry> getJournalById(@PathVariable String username) {
+        UserEntry userEntry = userEntryService.findByUsername(username);
+        if (userEntry != null)
+            return new ResponseEntity<>(userEntry, HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
     }
 
-
-    @PostMapping("/add")
-    public ResponseEntity<?> createUser(@RequestBody UserEntry user){
+    @PostMapping("signup")
+    public ResponseEntity<?> signup(@RequestBody UserEntry user) {
         UserEntry saved = userEntryService.save(user);
-        return new ResponseEntity<>(saved,HttpStatus.OK);
+        return new ResponseEntity<>(saved, HttpStatus.OK);
     }
 
-
-    @PutMapping
-    public ResponseEntity<?> updateUser(@RequestBody UserEntry user){
+    @PutMapping()
+    public ResponseEntity<?> updateUser(@RequestBody UserEntry user) {
         UserEntry userInDb = userEntryService.findByUsername(user.getUsername());
-        if (userInDb!= null) {
+        if (userInDb != null) {
             userInDb.setUsername(user.getUsername());
             userInDb.setPassword(user.getPassword());
             userEntryService.save(userInDb);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @DeleteMapping("{username}")
+    public ResponseEntity<?> deleteUser(@PathVariable String username) {
+        UserEntry userInDb = userEntryService.findByUsername(username);
+        if (userInDb != null) {
+            userEntryService.deleteById(userInDb.getId());
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+    }
 }
-
-
-
-
-
-

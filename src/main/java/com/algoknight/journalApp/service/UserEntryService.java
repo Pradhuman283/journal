@@ -5,6 +5,7 @@ import com.algoknight.journalApp.entity.UserEntry;
 import com.algoknight.journalApp.repository.UserEntryRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,25 +16,31 @@ public class UserEntryService {
     @Autowired
     private UserEntryRepository userEntryRepository;
 
-    public UserEntry save(UserEntry journal){
-        return userEntryRepository.save(journal);
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public UserEntry save(UserEntry user) {
+        // Encrypt the password before saving to the database
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userEntryRepository.save(user);
     }
-    public List<UserEntry> getAll(){
+
+    public List<UserEntry> getAll() {
         return userEntryRepository.findAll();
     }
 
-    public Optional<UserEntry> findById(ObjectId myid){
+    public Optional<UserEntry> findById(ObjectId myid) {
         return userEntryRepository.findById(myid);
     }
 
-    public void deleteById(ObjectId id){
+    public void deleteById(ObjectId id) {
         Optional<UserEntry> user = userEntryRepository.findById(id);
-        if(user.isPresent())  userEntryRepository.deleteById(id);
-
+        if (user.isPresent())
+            userEntryRepository.deleteById(id);
 
     }
 
-    public UserEntry findByUsername(String username){
+    public UserEntry findByUsername(String username) {
         return userEntryRepository.findByUsername(username);
     }
 }
