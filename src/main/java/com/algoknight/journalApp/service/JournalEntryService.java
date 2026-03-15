@@ -12,6 +12,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 @Service
 public class JournalEntryService {
 
@@ -28,7 +31,7 @@ public class JournalEntryService {
             journal.setDate(LocalDateTime.now());
             journalEntry saved = entryRepository.save(journal);
             user.getJournalEntries().add(saved);
-            userEntryService.save(user);
+            userEntryService.saveUser(user);
             return saved;
         }
         throw new RuntimeException("User not found with username: " + username);

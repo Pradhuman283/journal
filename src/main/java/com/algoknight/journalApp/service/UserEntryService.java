@@ -19,10 +19,13 @@ public class UserEntryService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public UserEntry save(UserEntry user) {
-        // Encrypt the password before saving to the database
+    public void saveNewUser(UserEntry user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userEntryRepository.save(user);
+        userEntryRepository.save(user);
+    }
+
+    public void saveUser(UserEntry user) {
+        userEntryRepository.save(user);
     }
 
     public List<UserEntry> getAll() {

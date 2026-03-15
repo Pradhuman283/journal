@@ -14,6 +14,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 @RestController
 @RequestMapping("/User")
 public class UserController {
@@ -42,23 +45,27 @@ public class UserController {
 
     @PostMapping("signup")
     public ResponseEntity<?> signup(@RequestBody UserEntry user) {
-        UserEntry saved = userEntryService.save(user);
-        return new ResponseEntity<>(saved, HttpStatus.OK);
+        userEntryService.saveNewUser(user);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PutMapping()
     public ResponseEntity<?> updateUser(@RequestBody UserEntry user) {
-        UserEntry userInDb = userEntryService.findByUsername(user.getUsername());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        UserEntry userInDb = userEntryService.findByUsername(username);
         if (userInDb != null) {
             userInDb.setUsername(user.getUsername());
             userInDb.setPassword(user.getPassword());
-            userEntryService.save(userInDb);
+            userEntryService.saveNewUser(userInDb);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("{username}")
-    public ResponseEntity<?> deleteUser(@PathVariable String username) {
+    @DeleteMapping()
+    public ResponseEntity<?> deleteUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
         UserEntry userInDb = userEntryService.findByUsername(username);
         if (userInDb != null) {
             userEntryService.deleteById(userInDb.getId());

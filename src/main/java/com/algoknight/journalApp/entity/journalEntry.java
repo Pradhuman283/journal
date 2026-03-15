@@ -1,6 +1,5 @@
 package com.algoknight.journalApp.entity;
 
-import jdk.jfr.DataAmount;
 import lombok.Data;
 import lombok.NonNull;
 import org.bson.types.ObjectId;

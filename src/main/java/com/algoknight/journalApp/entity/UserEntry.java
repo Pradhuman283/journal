@@ -27,6 +27,6 @@ public class UserEntry {
     @DBRef
     private List<journalEntry> journalEntries = new ArrayList<>();
 
-    private List<String> roles;
+    private List<String> roles = new ArrayList<>(List.of("USER"));
 
 }

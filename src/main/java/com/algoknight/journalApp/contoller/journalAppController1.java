@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 @RestController
 @RequestMapping("/journal")
 public class journalAppController1 {
@@ -19,13 +22,16 @@ public class journalAppController1 {
 
     @GetMapping()
     public List<journalEntry> getAll() {
-        return journalEntryService.getAll();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        return journalEntryService.getAllEntriesOfUser(username);
     }
 
-    @PostMapping("{username}")
-    public ResponseEntity<?> createEntry(@RequestBody journalEntry journal, @PathVariable String username) {
+    @PostMapping
+    public ResponseEntity<?> createEntry(@RequestBody journalEntry journal) {
         try {
-
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
             journalEntry saved = journalEntryService.save(journal, username);
             return new ResponseEntity<>(saved, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -33,8 +39,10 @@ public class journalAppController1 {
         }
     }
 
-    @GetMapping("id/{username}/{myId}")
-    public ResponseEntity<journalEntry> getJournalById(@PathVariable ObjectId myId, @PathVariable String username) {
+    @GetMapping("{myId}")
+    public ResponseEntity<journalEntry> getJournalById(@PathVariable ObjectId myId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
         Optional<journalEntry> journalEntry = journalEntryService.findById(myId, username);
         if (journalEntry.isPresent())
             return new ResponseEntity<>(journalEntry.get(), HttpStatus.OK);
@@ -42,8 +50,10 @@ public class journalAppController1 {
 
     }
 
-    @DeleteMapping("id/{username}/{id}")
-    public ResponseEntity<?> deleteJournalEntry(@PathVariable ObjectId id, @PathVariable String username) {
+    @DeleteMapping("id/{id}")
+    public ResponseEntity<?> deleteJournalEntry(@PathVariable ObjectId id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
         Optional<journalEntry> journal = journalEntryService.findById(id, username);
         if (journal.isPresent()) {
             journalEntryService.deleteById(id, username);
@@ -53,9 +63,11 @@ public class journalAppController1 {
 
     }
 
-    @PutMapping("id/{username}/{id}")
-    public ResponseEntity<?> updatejournalById(@PathVariable ObjectId id, @PathVariable String username,
+    @PutMapping("id/{id}")
+    public ResponseEntity<?> updatejournalById(@PathVariable ObjectId id,
             @RequestBody journalEntry updated) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
         Optional<journalEntry> old = journalEntryService.findById(id, username);
         if (old.isPresent()) {
             journalEntry oldEntry = old.get();
