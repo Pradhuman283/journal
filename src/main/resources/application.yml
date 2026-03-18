@@ -1,0 +1,4 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://rathorepradhuman2_db_user:N0Sp8TAPxwPrjaS7@cluster0.cggznfo.mongodb.net/journaldb_prod

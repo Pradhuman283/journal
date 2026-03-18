@@ -1,6 +1,8 @@
 package com.algoknight.journalApp.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -14,6 +16,8 @@ import java.util.List;
 
 @Document(collection = "User_entries")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserEntry {
     @Id
     private ObjectId id;
