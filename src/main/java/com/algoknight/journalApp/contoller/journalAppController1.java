@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 @RestController
 @RequestMapping("/journal")
+@Slf4j
 public class journalAppController1 {
     @Autowired
     private JournalEntryService journalEntryService;
@@ -35,6 +37,7 @@ public class journalAppController1 {
             journalEntry saved = journalEntryService.save(journal, username);
             return new ResponseEntity<>(saved, HttpStatus.CREATED);
         } catch (Exception e) {
+            log.error("Error creating entry for user {}: ", SecurityContextHolder.getContext().getAuthentication().getName(), e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

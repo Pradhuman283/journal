@@ -31,18 +31,21 @@ class JournalEntryServiceTest {
 
     @Test
     void save_Success() {
+        // dumy user
         UserEntry user = new UserEntry();
         user.setUsername("ram");
         user.setJournalEntries(new ArrayList<>());
-
+        // dumy entry
         journalEntry entry = new journalEntry();
         entry.setTitle("Title");
 
         when(userEntryService.findByUsername("ram")).thenReturn(user);
         when(entryRepository.save(any(journalEntry.class))).thenReturn(entry);
-
+        // just before this line this all were the arrangments for the testing the
+        // following service
         journalEntry result = journalEntryService.save(entry, "ram");
 
+        // now the following lines are for verification
         Assertions.assertNotNull(result);
         Assertions.assertEquals("Title", result.getTitle());
         verify(userEntryService, times(1)).saveUser(user);

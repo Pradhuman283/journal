@@ -4,6 +4,9 @@ import com.algoknight.journalApp.entity.UserEntry;
 import com.algoknight.journalApp.entity.journalEntry;
 import com.algoknight.journalApp.service.JournalEntryService;
 import com.algoknight.journalApp.service.UserEntryService;
+
+import lombok.extern.slf4j.Slf4j;
+
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 @RestController
 @RequestMapping("/User")
+@Slf4j
 public class UserController {
 
     @Autowired
@@ -58,6 +62,9 @@ public class UserController {
             userInDb.setUsername(user.getUsername());
             userInDb.setPassword(user.getPassword());
             userEntryService.saveNewUser(userInDb);
+            log.info("User updated successfully: " + user.getUsername());
+        } else {
+            log.error("User not found with username: " + username);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
