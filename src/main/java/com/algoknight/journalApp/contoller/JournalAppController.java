@@ -12,13 +12,14 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import lombok.extern.slf4j.Slf4j;
+import com.algoknight.journalApp.dto.JournalEntryDTO;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 @RestController
 @RequestMapping("/journal")
 @Slf4j
-public class journalAppController1 {
+public class JournalAppController {
     @Autowired
     private JournalEntryService journalEntryService;
 
@@ -30,14 +31,18 @@ public class journalAppController1 {
     }
 
     @PostMapping
-    public ResponseEntity<?> createEntry(@RequestBody journalEntry journal) {
+    public ResponseEntity<?> createEntry(@RequestBody JournalEntryDTO journalDTO) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
+            journalEntry journal = new journalEntry();
+            journal.setTitle(journalDTO.getTitle());
+            journal.setContent(journalDTO.getContent());
             journalEntry saved = journalEntryService.save(journal, username);
             return new ResponseEntity<>(saved, HttpStatus.CREATED);
         } catch (Exception e) {
-            log.error("Error creating entry for user {}: ", SecurityContextHolder.getContext().getAuthentication().getName(), e);
+            log.error("Error creating entry for user {}: ",
+                    SecurityContextHolder.getContext().getAuthentication().getName(), e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -68,7 +73,7 @@ public class journalAppController1 {
 
     @PutMapping("id/{id}")
     public ResponseEntity<?> updatejournalById(@PathVariable ObjectId id,
-            @RequestBody journalEntry updated) {
+            @RequestBody JournalEntryDTO updated) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         Optional<journalEntry> old = journalEntryService.findById(id, username);

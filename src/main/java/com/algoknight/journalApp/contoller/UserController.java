@@ -19,6 +19,7 @@ import java.util.Optional;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import com.algoknight.journalApp.dto.UserEntryDTO;
 
 @RestController
 @RequestMapping("/User")
@@ -48,13 +49,16 @@ public class UserController {
     }
 
     @PostMapping("signup")
-    public ResponseEntity<?> signup(@RequestBody UserEntry user) {
+    public ResponseEntity<?> signup(@RequestBody UserEntryDTO userDTO) {
+        UserEntry user = new UserEntry();
+        user.setUsername(userDTO.getUsername());
+        user.setPassword(userDTO.getPassword());
         userEntryService.saveNewUser(user);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PutMapping()
-    public ResponseEntity<?> updateUser(@RequestBody UserEntry user) {
+    public ResponseEntity<?> updateUser(@RequestBody UserEntryDTO user) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         UserEntry userInDb = userEntryService.findByUsername(username);
