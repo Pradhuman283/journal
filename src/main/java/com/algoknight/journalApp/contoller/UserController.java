@@ -4,7 +4,8 @@ import com.algoknight.journalApp.entity.UserEntry;
 import com.algoknight.journalApp.entity.journalEntry;
 import com.algoknight.journalApp.service.JournalEntryService;
 import com.algoknight.journalApp.service.UserEntryService;
-
+import com.algoknight.journalApp.service.WeatherService;
+import api_response.WeatherApiResponse;
 import lombok.extern.slf4j.Slf4j;
 
 import org.bson.types.ObjectId;
@@ -29,6 +30,9 @@ public class UserController {
     @Autowired
     private UserEntryService userEntryService;
 
+    @Autowired
+    private WeatherService weatherService;
+
     @GetMapping()
     public List<UserEntry> getAll() {
         return userEntryService.getAll();
@@ -49,7 +53,7 @@ public class UserController {
     }
 
     @PostMapping("signup")
-    public ResponseEntity<?> signup(@RequestBody UserEntryDTO userDTO) {
+    public ResponseEntity<UserEntry> signup(@RequestBody UserEntryDTO userDTO) {
         UserEntry user = new UserEntry();
         user.setUsername(userDTO.getUsername());
         user.setPassword(userDTO.getPassword());
@@ -58,7 +62,7 @@ public class UserController {
     }
 
     @PutMapping()
-    public ResponseEntity<?> updateUser(@RequestBody UserEntryDTO user) {
+    public ResponseEntity<UserEntry> updateUser(@RequestBody UserEntryDTO user) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         UserEntry userInDb = userEntryService.findByUsername(username);
@@ -74,7 +78,7 @@ public class UserController {
     }
 
     @DeleteMapping()
-    public ResponseEntity<?> deleteUser() {
+    public ResponseEntity<UserEntry> deleteUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         UserEntry userInDb = userEntryService.findByUsername(username);
@@ -84,6 +88,11 @@ public class UserController {
         }
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
+    @GetMapping("weather/{city}")
+    public ResponseEntity<WeatherApiResponse> weather(@PathVariable String city) {
+        WeatherApiResponse weather = weatherService.getWeather(city);
+        return new ResponseEntity<>(weather, HttpStatus.OK);
     }
 }
