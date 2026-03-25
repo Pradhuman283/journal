@@ -22,6 +22,8 @@ public class JournalApplication {
     public static void main(String[] args) {
         Dotenv dotenv = Dotenv.load();
         System.setProperty("MONGO_URI", dotenv.get("MONGO_URI"));
+        System.setProperty("WEATHER_API_KEY", dotenv.get("WEATHER_API_KEY"));
+        System.setProperty("EMAIL_PASSWORD", dotenv.get("EMAIL_PASSWORD"));
         SpringApplication.run(JournalApplication.class, args);
     }
 
@@ -33,6 +35,13 @@ public class JournalApplication {
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
+    }
+
+    @Bean
+    public CommandLineRunner commandLineRunner() {
+        return args -> {
+            System.out.println("Application started successfully");
+        };
     }
 
 }

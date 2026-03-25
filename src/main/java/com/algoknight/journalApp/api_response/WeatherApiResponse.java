@@ -1,4 +1,4 @@
-package api_response;
+package com.algoknight.journalApp.api_response;
 
 import lombok.Data;
 

@@ -26,6 +26,7 @@ public class SecurityConfiguration {
         return http.authorizeHttpRequests(request -> request
                 .requestMatchers("/journal/**").authenticated()
                 .requestMatchers("/user/signup").permitAll()
+                .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().permitAll())
                 .httpBasic(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())

@@ -5,7 +5,7 @@ import com.algoknight.journalApp.entity.journalEntry;
 import com.algoknight.journalApp.service.JournalEntryService;
 import com.algoknight.journalApp.service.UserEntryService;
 import com.algoknight.journalApp.service.WeatherService;
-import api_response.WeatherApiResponse;
+
 import lombok.extern.slf4j.Slf4j;
 
 import org.bson.types.ObjectId;
@@ -20,6 +20,8 @@ import java.util.Optional;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import com.algoknight.journalApp.api_response.WeatherApiResponse;
 import com.algoknight.journalApp.dto.UserEntryDTO;
 
 @RestController
@@ -32,11 +34,6 @@ public class UserController {
 
     @Autowired
     private WeatherService weatherService;
-
-    @GetMapping()
-    public List<UserEntry> getAll() {
-        return userEntryService.getAll();
-    }
 
     @GetMapping("{username}")
     public List<UserEntry> getAllEUserEntries() {
