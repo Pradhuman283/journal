@@ -13,6 +13,9 @@ spring:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
       mail.smtp.localhost: localhost
+  redis:
+    host: localhost
+    port: 6379
 
 weatherapi:
   key : ${WEATHER_API_KEY:24232525}

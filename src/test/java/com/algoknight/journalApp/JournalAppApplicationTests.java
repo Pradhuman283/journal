@@ -11,10 +11,11 @@ class JournalAppApplicationTests {
         System.setProperty("MONGO_URI", dotenv.get("MONGO_URI"));
         System.setProperty("WEATHER_API_KEY", dotenv.get("WEATHER_API_KEY"));
         System.setProperty("EMAIL_PASSWORD", dotenv.get("EMAIL_PASSWORD"));
+        System.setProperty("jwt.secret", dotenv.get("jwt.secret"));
     }
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
 
 }

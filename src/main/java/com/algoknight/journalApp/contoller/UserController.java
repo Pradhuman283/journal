@@ -20,9 +20,12 @@ import java.util.Optional;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 import com.algoknight.journalApp.api_response.WeatherApiResponse;
 import com.algoknight.journalApp.dto.UserEntryDTO;
+import com.algoknight.journalApp.service.JwtService;
 
 @RestController
 @RequestMapping("/User")
@@ -35,16 +38,19 @@ public class UserController {
     @Autowired
     private WeatherService weatherService;
 
-    @GetMapping("{username}")
-    public List<UserEntry> getAllEUserEntries() {
-        return userEntryService.getAll();
-    }
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
-    @GetMapping("id/{username}")
-    public ResponseEntity<UserEntry> getJournalById(@PathVariable String username) {
+    @Autowired
+    private JwtService jwtService;
+
+    @GetMapping("/journals")
+    public ResponseEntity<List<journalEntry>> getAllUserJournal() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
         UserEntry userEntry = userEntryService.findByUsername(username);
         if (userEntry != null)
-            return new ResponseEntity<>(userEntry, HttpStatus.OK);
+            return new ResponseEntity<>(userEntry.getJournalEntries(), HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
     }
@@ -56,6 +62,21 @@ public class UserController {
         user.setPassword(userDTO.getPassword());
         userEntryService.saveNewUser(user);
         return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @PostMapping("login")
+    public ResponseEntity<String> login(@RequestBody UserEntryDTO userDTO) {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(userDTO.getUsername(), userDTO.getPassword()));
+            String token = jwtService.generateToken(userDTO.getUsername());
+            log.info("User logged in successfully: " + userDTO.getUsername());
+
+            return new ResponseEntity<>(token, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
     }
 
     @PutMapping()

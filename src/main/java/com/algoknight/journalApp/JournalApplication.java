@@ -12,11 +12,14 @@ import org.springframework.data.mongodb.MongoTransactionManager;
 import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.security.authentication.AuthenticationManager;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableAutoConfiguration
+@EnableScheduling
 public class JournalApplication {
 
     public static void main(String[] args) {
@@ -24,6 +27,7 @@ public class JournalApplication {
         System.setProperty("MONGO_URI", dotenv.get("MONGO_URI"));
         System.setProperty("WEATHER_API_KEY", dotenv.get("WEATHER_API_KEY"));
         System.setProperty("EMAIL_PASSWORD", dotenv.get("EMAIL_PASSWORD"));
+        System.setProperty("jwt.secret", dotenv.get("jwt.secret"));
         SpringApplication.run(JournalApplication.class, args);
     }
 

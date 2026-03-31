@@ -1,0 +1,51 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< com.algoknight:journalApp >----------------------
+[INFO] Building journal App 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ journalApp ---
+[INFO] Copying 4 resources from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ journalApp ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 26 source files with javac [debug parameters release 17] to target\classes
+[INFO] -------------------------------------------------------------
+[WARNING] COMPILATION WARNING : 
+[INFO] -------------------------------------------------------------
+[WARNING] /D:/Pradhuman Area/Study/Project/journalApp/journalApp/src/main/java/com/algoknight/journalApp/security/RedisConfiguration.java:[18,82] org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer in org.springframework.data.redis.serializer has been deprecated and marked for removal
+[INFO] 1 warning
+[INFO] -------------------------------------------------------------
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /D:/Pradhuman Area/Study/Project/journalApp/journalApp/src/main/java/com/algoknight/journalApp/filter/JwtFilter.java:[35,34] cannot find symbol
+  symbol:   method extractUsername(java.lang.String)
+  location: variable jwtService of type com.algoknight.journalApp.service.JwtService
+[ERROR] /D:/Pradhuman Area/Study/Project/journalApp/journalApp/src/main/java/com/algoknight/journalApp/filter/JwtFilter.java:[39,27] cannot find symbol
+  symbol:   method validateToken(java.lang.String,org.springframework.security.core.userdetails.UserDetails)
+  location: variable jwtService of type com.algoknight.journalApp.service.JwtService
+[INFO] 2 errors 
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  4.147 s
+[INFO] Finished at: 2026-03-31T16:27:32+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.14.1:compile (default-compile) on project journalApp: Compilation failure: Compilation failure: 
+[ERROR] /D:/Pradhuman Area/Study/Project/journalApp/journalApp/src/main/java/com/algoknight/journalApp/filter/JwtFilter.java:[35,34] cannot find symbol
+[ERROR]   symbol:   method extractUsername(java.lang.String)
+[ERROR]   location: variable jwtService of type com.algoknight.journalApp.service.JwtService
+[ERROR] /D:/Pradhuman Area/Study/Project/journalApp/journalApp/src/main/java/com/algoknight/journalApp/filter/JwtFilter.java:[39,27] cannot find symbol
+[ERROR]   symbol:   method validateToken(java.lang.String,org.springframework.security.core.userdetails.UserDetails)
+[ERROR]   location: variable jwtService of type com.algoknight.journalApp.service.JwtService
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

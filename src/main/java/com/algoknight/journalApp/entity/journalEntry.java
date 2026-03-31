@@ -7,6 +7,7 @@ import lombok.NonNull;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import com.algoknight.journalApp.enums.Sentiment;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -26,6 +27,6 @@ public class journalEntry {
 
     private LocalDateTime date;
 
-
+    private Sentiment sentiment;
 
 }
