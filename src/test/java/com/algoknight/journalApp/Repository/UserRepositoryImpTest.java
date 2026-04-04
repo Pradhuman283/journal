@@ -1,5 +1,6 @@
 package com.algoknight.journalApp.Repository;
 
+import com.algoknight.journalApp.utils.EnvLoader;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,7 @@ import java.util.List;
 public class UserRepositoryImpTest {
 
     static {
-        io.github.cdimascio.dotenv.Dotenv dotenv = io.github.cdimascio.dotenv.Dotenv.load();
-        System.setProperty("MONGO_URI", dotenv.get("MONGO_URI"));
-        System.setProperty("WEATHER_API_KEY", dotenv.get("WEATHER_API_KEY"));
-        System.setProperty("EMAIL_PASSWORD", dotenv.get("EMAIL_PASSWORD"));
+        EnvLoader.load();
     }
 
     @Autowired
