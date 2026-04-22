@@ -24,7 +24,7 @@ import io.jsonwebtoken.security.SignatureException;
 @Component
 public class JwtService {
 
-    @Value("${jwt.secret}")
+    @Value("${JWT_SECRET}")
     private String SECRET_KEY;
 
     @Autowired

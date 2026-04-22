@@ -74,6 +74,7 @@ public class UserController {
 
             return new ResponseEntity<>(token, HttpStatus.OK);
         } catch (Exception e) {
+            log.error("User login failed: " + userDTO.getUsername());
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 

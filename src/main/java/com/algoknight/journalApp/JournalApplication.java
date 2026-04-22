@@ -12,9 +12,12 @@ import org.springframework.data.mongodb.MongoTransactionManager;
 import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.client.RestTemplate;
+
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+
 import org.springframework.security.authentication.AuthenticationManager;
 
-import com.algoknight.journalApp.utils.EnvLoader;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
@@ -23,13 +26,19 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class JournalApplication {
 
     public static void main(String[] args) {
-        EnvLoader.load();
+
         SpringApplication.run(JournalApplication.class, args);
     }
 
+    @Value("${MONGO_URI}")
+    private String mongoUri;
+
     @Bean
-    public com.mongodb.client.MongoClient mongoClient() {
-        return com.mongodb.client.MongoClients.create(System.getProperty("MONGO_URI"));
+    public MongoClient mongoClient() {
+        if (mongoUri == null || mongoUri.isEmpty()) {
+            throw new IllegalStateException("MongoDB URI is missing from environment variables!");
+        }
+        return MongoClients.create(mongoUri);
     }
 
     @Bean

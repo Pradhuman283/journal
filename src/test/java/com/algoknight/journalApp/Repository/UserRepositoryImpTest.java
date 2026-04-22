@@ -1,6 +1,5 @@
 package com.algoknight.journalApp.Repository;
 
-import com.algoknight.journalApp.utils.EnvLoader;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +9,6 @@ import java.util.List;
 
 @SpringBootTest
 public class UserRepositoryImpTest {
-
-    static {
-        EnvLoader.load();
-    }
 
     @Autowired
     private UserRepositoryImp userRepositoryImp;

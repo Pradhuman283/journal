@@ -1,0 +1,9 @@
+.git
+target
+Dockerfile
+.dockerignore
+.gitignore
+HELP.md
+*.log
+*.txt
+.env

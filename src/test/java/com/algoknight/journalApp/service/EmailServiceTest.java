@@ -1,6 +1,5 @@
 package com.algoknight.journalApp.service;
 
-import com.algoknight.journalApp.utils.EnvLoader;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.junit.jupiter.api.Test;
@@ -12,10 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 @ActiveProfiles("test")
 @Slf4j
 public class EmailServiceTest {
-
-    static {
-        EnvLoader.load();
-    }
 
     @Autowired
     private EmailService emailService;
